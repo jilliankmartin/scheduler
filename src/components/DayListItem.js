@@ -4,26 +4,23 @@ const classnames = require('classnames');
 
 export default function DayListItem(props) {
 
-  const formatSpots = function(spots) {
-    if (!spots) {
-      return "no spots remaining"
+  const formatSpots = () => {
+    if (props.spots === 1) {
+      return "1 spot remaining";
     }
-    if (spots === 1) {
-      return spots + " spot remaining"
-    }
-    return spots + " spots remaining"
-    
-  };
+    let spots = props.spots ? props.spots + " spots remaining" : "no spots remaining";
+    return spots}
+  
 
   const dayClass = classnames("day-list__item", {
     "day-list__item--selected": props.selected,
-    "day-list__item--full": !props.spots,
+    "day-list__item--full": props.full,
   });
 
   return (
     <li onClick={() => props.setDay(props.name)} className={dayClass}>
       <h2 className="text--regular">{props.name}</h2>
-      <h3 className="text--light">{formatSpots(props.spots)}</h3>
+      <h3 className="text--light">{formatSpots()}</h3>
     </li>
   );
 }
