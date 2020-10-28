@@ -47,8 +47,14 @@ const appointments = [
 
 export default function Application(props) {
 
-    const [days, setDays] = useState([])
-    const [day, setDay] = useState(["Monday"])
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {}
+  });
+
+  const setDay = day => setState({ ...state, day });
+  const setDays = days => setState(prev => ({ ...prev, days }));
 
     useEffect(() => {
       axios
@@ -57,7 +63,7 @@ export default function Application(props) {
     }, [])
 
     const listMaker = appointments.map((appointment) => 
-    <Appointment key={appointment.id} {...appointment} />
+    <Appointment key={appointments.id} {...appointments} />
     )
 
   return (
@@ -71,8 +77,8 @@ export default function Application(props) {
 <hr className="sidebar__separator sidebar--centered" />
 <nav className="sidebar__menu">
   <DayList
-    days={days}
-    day={day}
+    days={state.days}
+    day={state.day}
     setDay={setDay}
   />    
 </nav>
@@ -84,7 +90,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {listMaker}
-        <Appointment key="last" time="4pm" />
+        <Appointment key={"last"} time="4pm" />
       </section>
     </main>
   );
