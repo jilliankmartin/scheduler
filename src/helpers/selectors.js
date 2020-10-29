@@ -30,4 +30,20 @@ return finalObj
 };
 
 
+export function getInterviewersForDay(state, day) {
+  const filteredDays = state.days.filter((oneDay) => { 
+    return oneDay.name === day
+    })
+
+  if (filteredDays.length === 0) {
+    return [];
+  }
+  const relevantInterviewers = filteredDays[0].interviewers.map((oneInterviewer) => {
+    return state.interviewers[oneInterviewer]
+  })
+  console.log(relevantInterviewers)
+  return relevantInterviewers;
+  
+};
+
 
