@@ -73,7 +73,25 @@ export default function Application(props) {
           interviewers: interviewers.data
         }))
       })
-    })
+    }, [] )
+
+
+    function bookInterview(id, interview) {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      }
+
+      setState({
+        ...state,
+        appointments
+      });
+    }
+
     const appointments = getAppointmentsForDay(state, state.day)
     const listMaker = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview)
@@ -83,7 +101,8 @@ export default function Application(props) {
       id={appointment.id}
       time={appointment.time}
       interview={interview}
-      interviewers={interviewersForDay } 
+      interviewers={interviewersForDay}
+      onSave={bookInterview} 
       />
     })
 

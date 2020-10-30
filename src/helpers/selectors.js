@@ -41,7 +41,6 @@ export function getInterviewersForDay(state, day) {
   const relevantInterviewers = filteredDays[0].interviewers.map((oneInterviewer) => {
     return state.interviewers[oneInterviewer]
   })
-  console.log(relevantInterviewers)
   return relevantInterviewers;
   
 };
