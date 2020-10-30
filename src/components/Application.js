@@ -4,7 +4,7 @@ import Appointment from "components/Appointment";
 import "components/Application.scss";
 import axios from 'axios';
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
-
+import usePutRequest from "hooks/usePutRequest";
 // const appointments = [
 //   {
 //     id: 1,
@@ -54,10 +54,8 @@ export default function Application(props) {
     interviewers: {}
   });
 
-  // const dailyAppointments = [];
 
   const setDay = day => setState({ ...state, day });
-  // const setDays = days => setState(prev => ({ ...prev, days }));
 
     useEffect(() => {
       Promise.all([
@@ -65,31 +63,50 @@ export default function Application(props) {
         Promise.resolve(axios.get('/api/appointments')),
         Promise.resolve(axios.get('/api/interviewers'))
       ]).then((all) => {
-        const [days, appointments, interviewers] = all;
-        setState(prev => ({
-          ...prev, 
-          days: days.data, 
-          appointments: appointments.data,
-          interviewers: interviewers.data
-        }))
-      })
+          const [days, appointments, interviewers] = all;
+          setState(prev => ({
+            ...prev, 
+            days: days.data, 
+            appointments: appointments.data,
+            interviewers: interviewers.data
+          }))
+        })
+        .catch((err) => {console.log(err.response.status)})
     }, [] )
 
 
-    function bookInterview(id, interview) {
+    function BookInterview(id, interview) {
       const appointment = {
         ...state.appointments[id],
         interview: { ...interview }
       };
+
       const appointments = {
         ...state.appointments,
         [id]: appointment
       }
-
-      setState({
+      const newStatedata = {
         ...state,
         appointments
-      });
+      }
+      
+      const url = `/api/appointments/${id}`
+      axios.put(url, newStatedata.appointments[id])
+      .then((res) => {
+        console.log("Response status: ",  res.status)
+        setState(newStatedata)
+      })
+      .catch((err) => {console.log(err.response.status)})
+
+
+        // const url = `/api/appointments/${id}`
+        // usePutRequest(url, newStatedata)
+        //   .then((res) => {
+        //   console.log("put request successful, res object: ", res)
+        //   setState(newStatedata)
+        // })
+
+
     }
 
     const appointments = getAppointmentsForDay(state, state.day)
@@ -102,7 +119,7 @@ export default function Application(props) {
       time={appointment.time}
       interview={interview}
       interviewers={interviewersForDay}
-      onSave={bookInterview} 
+      onSave={BookInterview} 
       />
     })
 
@@ -135,3 +152,11 @@ export default function Application(props) {
     </main>
   );
 }
+
+
+
+// const url = `/api/appointments/${id}`
+// usePutRequest(url, newStatedata)
+// .then((res) => {
+//   console.log("put request successful, res object: ", res)
+//   setState(newStatedata)})
