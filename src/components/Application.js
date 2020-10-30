@@ -75,6 +75,27 @@ export default function Application(props) {
         .catch((err) => {console.log(err.response.status)})
     }, [] )
 
+    function CancelInterview(id) {
+      console.log("ID for cancellation: ", id)
+      const url = `/api/appointments/${id}`
+      return axios.delete(url)
+        .then((res) => {
+          console.log("Axios delete res: ", res)
+          const deletedAppt = {
+            ...state.appointments[id],
+            interview: null,
+          }
+          const deletedAppts = {
+            ...state.appointments,
+            [id]: deletedAppt
+          }
+          console.log("deleted appr: ", deletedAppt)
+          setState({
+            ...state, 
+            deletedAppts})
+        })
+        
+    }
 
     function BookInterview(id, interview) {
       const appointment = {
@@ -98,7 +119,7 @@ export default function Application(props) {
         setState(newStatedata)
         return res;
       })
-      .catch((err) => {console.log(err.response.status)})
+      
 
 
         // const url = `/api/appointments/${id}`
@@ -121,7 +142,8 @@ export default function Application(props) {
       time={appointment.time}
       interview={interview}
       interviewers={interviewersForDay}
-      onSave={BookInterview} 
+      onSave={BookInterview}
+      onDelete={CancelInterview} 
       />
     })
 
