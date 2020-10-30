@@ -4,7 +4,8 @@ import Appointment from "components/Appointment";
 import "components/Application.scss";
 import axios from 'axios';
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
-import usePutRequest from "hooks/usePutRequest";
+// import usePutRequest from "hooks/usePutRequest";
+
 // const appointments = [
 //   {
 //     id: 1,
@@ -91,10 +92,11 @@ export default function Application(props) {
       }
       
       const url = `/api/appointments/${id}`
-      axios.put(url, newStatedata.appointments[id])
+      return axios.put(url, newStatedata.appointments[id])
       .then((res) => {
         console.log("Response status: ",  res.status)
         setState(newStatedata)
+        return res;
       })
       .catch((err) => {console.log(err.response.status)})
 
