@@ -18,7 +18,6 @@ export default function useVisualMode(initial) {
 
   function back() {
     if (history.length !== 1) {
-      console.log("History: ", history)
     // setMode(history.pop())
     // setMode((prev) => {console.log("Prev: ",prev, "mode: ", mode); return prev[prev.length - 3]})
     

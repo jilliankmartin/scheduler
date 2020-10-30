@@ -92,7 +92,7 @@ export default function Appointment(props) {
           <Status message="Deleting"/>
         }
         {mode === CONFIRM && 
-          <Confirm onConfirm={deleting}/>
+          <Confirm onClick={back} onConfirm={deleting}/>
         }
         {mode === EDITING && 
           <Form 
