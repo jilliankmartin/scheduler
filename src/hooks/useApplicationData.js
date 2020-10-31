@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import updateEmptySpots from "helpers/updateSpots";
 import axios from 'axios';
+
+
 
 export default function useApplicationData() {
 
@@ -29,22 +32,6 @@ export default function useApplicationData() {
         .catch((err) => {console.log(err.response.status)})
     }, [] )
 
-    const updateSpots = function(id, direction) {
-      const days = [...state.days]
-      for (const key in days) {
-        if (days[key].appointments.includes(id)) {
-          if (direction === "decrement") {
-            const updatedDay = {...days[key], spots: days[key].spots - 1}
-            days[key] = updatedDay
-          } else if (direction === "increment") {
-            const updatedDay = {...days[key], spots: days[key].spots + 1}
-            days[key] = updatedDay
-          }
-        }
-      }
-      return days
-    }
-
     function CancelInterview(id) {
       const url = `/api/appointments/${id}`
 
@@ -59,12 +46,17 @@ export default function useApplicationData() {
             ...state.appointments,
             [id]: deletedAppt
           }
-          const changedDay = updateSpots(id, "increment")
-          console.log("DAYS", changedDay)
+
+          const upToDateState = {
+            ...state,
+            appointments: deletedAppts
+          }
+
+          const newDays = updateEmptySpots(upToDateState, id)
+
           setState({
-            ...state, 
-            deletedAppts, 
-            days: changedDay})
+            ...upToDateState, 
+            days: newDays})
         })
         
     }
@@ -83,28 +75,12 @@ export default function useApplicationData() {
         ...state,
         appointments
       }
-      
-      // const updateSpots = function(direction) {
-      //   let count = 0;
-      //   if (state.day === "Monday") {
-      //     for (const spot in state.appointments)
-      //       if (spot >=1 && spot <= 5) {
-      //         if (state.appointments[spot].interview === null) {
-      //           count += 1;
-      //         }
-      //       }
-      //   }
-      //   return count;
-      // };
-      
-      
 
       const url = `/api/appointments/${id}`
       return axios.put(url, newStatedata.appointments[id])
       .then((res) => {
-        const changedDay = updateSpots(id, "decrement")
-        console.log("CHANGED SDAY: ", changedDay)
-        setState({...newStatedata, days: changedDay})
+        const updatedDays = updateEmptySpots(newStatedata, id)
+        setState({...newStatedata, days: updatedDays})
         return res;
       })
 
