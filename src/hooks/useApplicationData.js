@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import updateEmptySpots from "helpers/updateSpots";
 import axios from 'axios';
 
@@ -6,14 +6,14 @@ import axios from 'axios';
 
 export default function useApplicationData() {
 
-  const [state, setState] = useState({
+  const [state, dispatch] = useReducer({
     day: "Monday",
     days: [],
     appointments: [],
     interviewers: {}
   });
 
-  const setDay = day => setState({ ...state, day });
+  const setDay = day => dispatch({ ...state, day });
 
     useEffect(() => {
       Promise.all([
