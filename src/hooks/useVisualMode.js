@@ -11,25 +11,18 @@ export default function useVisualMode(initial) {
         current.pop()
       }
       return [...current, newMode]
-    }) //add the current mode to the history array
-    // history.push(newMode);
+    })
     setMode(newMode); 
   }
 
   function back() {
-    if (history.length !== 1) {
-    // setMode(history.pop())
-    // setMode((prev) => {console.log("Prev: ",prev, "mode: ", mode); return prev[prev.length - 3]})
-    
-    setMode(history[history.length - 2]); 
-    // let slicedHistory = history.slice(0, -1)
-    setHistory((current) => {
-      let currentSliced = current.slice(0, -1)
-      return [...currentSliced]
-    })
-    // setHistory([...slicedHistory]) 
+      if (history.length !== 1) {
+        setMode(history[history.length - 2]); 
+        setHistory((current) => {
+        let currentSliced = current.slice(0, -1)
+        return [...currentSliced]
+      })
     }
   }
-
   return { mode, transition, back };
 }
