@@ -4,8 +4,8 @@ import Appointment from "components/Appointment/index";
 
 describe("Appointment", () => {
 
-  // it("renders without crashing", () => {
-  //   render(<Appointment />);
-  // });
+  it("renders without crashing", () => {
+    render(<Appointment />);
+  });
 
 });
