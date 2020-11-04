@@ -1,19 +1,20 @@
 import { useReducer, useEffect } from "react";
 import updateEmptySpots from "helpers/updateSpots";
 import axios from 'axios';
+import reducer, {SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW} from 'reducers/application'
 
 
 
 export default function useApplicationData() {
 
-  const [state, dispatch] = useReducer({
+  const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
     appointments: [],
     interviewers: {}
   });
 
-  const setDay = day => dispatch({ ...state, day });
+  const setDay = day => dispatch({ type: SET_DAY, day });
 
     useEffect(() => {
       Promise.all([
@@ -21,14 +22,14 @@ export default function useApplicationData() {
         axios.get('/api/appointments'),
         axios.get('/api/interviewers')
       ]).then(([days, appointments, interviewers]) => {
-          setState(prev => ({
-            ...prev, 
+          dispatch({
+            type: SET_APPLICATION_DATA, 
             days: days.data, 
             appointments: appointments.data,
             interviewers: interviewers.data
-          }))
+          })
         })
-        .catch((err) => {console.log(err.response.status)})
+        .catch((err) => {console.log(err)})
     }, [] )
 
     function CancelInterview(id) {
@@ -53,9 +54,7 @@ export default function useApplicationData() {
 
           const newDays = updateEmptySpots(upToDateState, id)
 
-          setState({
-            ...upToDateState, 
-            days: newDays})
+          dispatch({type: SET_INTERVIEW, appointments: deletedAppts, days: newDays})
         })
         
     }
@@ -79,7 +78,7 @@ export default function useApplicationData() {
       return axios.put(url, newStatedata.appointments[id])
       .then((res) => {
         const updatedDays = updateEmptySpots(newStatedata, id)
-        setState({...newStatedata, days: updatedDays})
+        dispatch({type: SET_INTERVIEW, appointments, days: updatedDays})
         return res;
       })
 
