@@ -2,7 +2,7 @@
 
 Scheduler is a React single page application designed to assist users of a fictional web development bootcamp to book and update mock technical interviews with the school's mentors. This project was built for educational purposes, as part of the Lighthouse Labs curriculum.
 
-The project utilizes React, Webpack, Babel, Express, Axios, Storybook and Jest.
+The project utilizes React, Webpack, Babel, Express, Axios, Storybook, Cypress and Jest.
 
 ## Final Product
 
