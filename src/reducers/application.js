@@ -21,7 +21,7 @@ export default function reducer(state, action) {
         interviewers: action.interviewers
        }
     case BOOK_INTERVIEW:
-
+       
       const appointment = {
         ...state.appointments[action.id],
         interview: { ...action.interview }

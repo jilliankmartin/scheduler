@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './styles.scss';
 import Show from "./Show";
 import Header from "./Header";
@@ -21,9 +21,21 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE"
   const ERROR_DELETE = "ERROR_DELETE"
 
+
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
+  useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+      transition(SHOW)
+    }
+    if (props.interview === null && mode === SHOW) {
+      transition(EMPTY)
+    }
+    
+  }, [props.interview, transition, mode])
+
 
   function deleting() {
     transition(DELETING, true)

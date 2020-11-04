@@ -6,6 +6,26 @@ import reducer, {SET_DAY, SET_APPLICATION_DATA, BOOK_INTERVIEW, CANCEL_INTERVIEW
 
 export default function useApplicationData() {
 
+  //websocket connection
+  useEffect(() => {
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    webSocket.onopen = (event) => {
+      return
+    }
+    webSocket.onmessage = function (event) {
+      var msg = JSON.parse(event.data);
+      const msgId = msg.id;
+      const msgInterview = msg.interview;
+      if (msg.type === "SET_INTERVIEW" && msg.interview === null) {
+        dispatch({type: CANCEL_INTERVIEW, id: msgId})
+      } else if (msg.type === "SET_INTERVIEW" && msg.interview) {
+        dispatch({type: BOOK_INTERVIEW, id: msgId, interview: msgInterview})
+      }
+      
+    }
+    return () => {webSocket.close()};
+  }, [] )
+
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
@@ -13,9 +33,11 @@ export default function useApplicationData() {
     interviewers: {}
   });
 
+
   const setDay = day => dispatch({ type: SET_DAY, day });
 
     useEffect(() => {
+
       Promise.all([
         axios.get('/api/days'),
         axios.get('/api/appointments'),
