@@ -6,10 +6,10 @@ The project utilizes React, Webpack, Babel, Express, Axios, Storybook and Jest.
 
 ## Final Product
 
-!["Homepage"]()
-!["Adding a new appointment"]()
-!["Adding a name and selecting an interviewer"]()
-![Deleting an appointment]()
+!["Homepage"](https://github.com/jilliankmartin/scheduler/blob/master/docs/Homepage.jpeg?raw=true)
+!["Adding a new appointment"](https://github.com/jilliankmartin/scheduler/blob/master/docs/Add-new-interview.jpeg?raw=true)
+!["Adding a name and selecting an interviewer"](https://github.com/jilliankmartin/scheduler/blob/master/docs/Add-new-name.jpeg?raw=true)
+![Deleting an appointment](https://github.com/jilliankmartin/scheduler/blob/master/docs/Delete.jpeg?raw=true)
 
 ## Setup
 
