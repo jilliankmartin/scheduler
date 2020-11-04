@@ -11,19 +11,19 @@ The project utilizes React, Webpack, Babel, Express, Axios, Storybook and Jest.
 
 
 *  *  *
-
+#### Adding a new appointment:
 
 !["Adding a new appointment"](https://github.com/jilliankmartin/scheduler/blob/master/docs/Add-new-interview.jpeg?raw=true)
 
 
 *  *  *
-
+#### Adding a name and selecting an interviewer:
 
 !["Adding a name and selecting an interviewer"](https://github.com/jilliankmartin/scheduler/blob/master/docs/Add-new-name.jpeg?raw=true)
 
 
 *  *  *
-
+#### Deleting an Apopintment:
 
 ![Deleting an appointment](https://github.com/jilliankmartin/scheduler/blob/master/docs/Delete.jpeg?raw=true)
 
