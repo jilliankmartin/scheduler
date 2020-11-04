@@ -1,7 +1,6 @@
 import { useReducer, useEffect } from "react";
-import updateEmptySpots from "helpers/updateSpots";
 import axios from 'axios';
-import reducer, {SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW} from 'reducers/application'
+import reducer, {SET_DAY, SET_APPLICATION_DATA, BOOK_INTERVIEW, CANCEL_INTERVIEW} from 'reducers/application'
 
 
 
@@ -38,47 +37,21 @@ export default function useApplicationData() {
       
       return axios.delete(url)
         .then(() => {
-          const deletedAppt = {
-            ...state.appointments[id],
-            interview: null,
-          }
-          const deletedAppts = {
-            ...state.appointments,
-            [id]: deletedAppt
-          }
-
-          const upToDateState = {
-            ...state,
-            appointments: deletedAppts
-          }
-
-          const newDays = updateEmptySpots(upToDateState, id)
-
-          dispatch({type: SET_INTERVIEW, appointments: deletedAppts, days: newDays})
+          dispatch({type: CANCEL_INTERVIEW, id})
         })
         
     }
-
+    
     function BookInterview(id, interview) {
       const appointment = {
         ...state.appointments[id],
         interview: { ...interview }
       };
 
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      }
-      const newStatedata = {
-        ...state,
-        appointments
-      }
-
       const url = `/api/appointments/${id}`
-      return axios.put(url, newStatedata.appointments[id])
+      return axios.put(url, appointment)
       .then((res) => {
-        const updatedDays = updateEmptySpots(newStatedata, id)
-        dispatch({type: SET_INTERVIEW, appointments, days: updatedDays})
+        dispatch({type: BOOK_INTERVIEW, id, interview})
         return res;
       })
 
