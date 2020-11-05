@@ -6,7 +6,7 @@ import reducer, {SET_DAY, SET_APPLICATION_DATA, BOOK_INTERVIEW, CANCEL_INTERVIEW
 
 export default function useApplicationData() {
 
-  //websocket connection
+  //websocket connection - comment out from line 10 to 27 if you'd like to run the Application test suite pass in Jest
   useEffect(() => {
     const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     webSocket.onopen = (event) => {
