@@ -1,18 +1,18 @@
 
-  //takes in a number of open spots for the day and returns a new days object to use to update state
+  //Fetches a number of open spots for the day and returns a new days object to use to update state
   export default function updateEmptySpots(state, id) {
     const openSpotCount = countSpots(state, id);
-    const days = [...state.days]
+    const days = [...state.days];
     for (const key in days) {
       if (days[key].appointments.includes(id)) {
-        const day = {...days[key], spots: openSpotCount}
-        days[key] = day
+        const day = {...days[key], spots: openSpotCount};
+        days[key] = day;
       }
     }
     return days;
-  }
+  };
 
-  //return a count of the number of open spots in the appointments for the relevant day
+  //returns a count of the number of open spots in the appointments for the relevant day
   const countSpots = function(state, id) {
     const appointments = state.appointments
     const days = state.days
@@ -26,6 +26,6 @@
         }
       }
     return count;
-  }
+  };
 
 
