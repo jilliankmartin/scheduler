@@ -2,7 +2,7 @@
 
 Scheduler is a React single page application designed to assist users of a fictional web development bootcamp to book and update mock technical interviews with the school's mentors. This project was built for educational purposes, as part of the Lighthouse Labs curriculum.
 
-The project utilizes React, Webpack, Babel, Express, Axios, Storybook, Cypress and Jest.
+The project utilizes React, Webpack, Babel, Express, Postgres, Axios, Storybook, Cypress and Jest. It uses the WebSocket API to make a persistent connection to the scheduler API server, allowing the app to function with multiple users connected.
 
 ## Final Product
 
@@ -55,4 +55,30 @@ npm test
 
 ```sh
 npm run storybook
+```
+
+## Running Tests with Cypress
+
+```sh
+npm install -g cypress
+```
+Create and configure the cypress.json file with base URL http://localhost:8000
+
+Duplicate the .env.development file and rename it to .env.test. Change only the PGDATABASE value to scheduler_test (or other relevant DB)
+
+Create a new database called scheduler_test
+
+Start the Scheduler API Server in test mode
+
+```sh
+npm run test:server
+```
+Make a GET request to http://localhost:8001/api/debug/reset to reset the database
+
+Ensure the webpack dev server is running
+
+Start Cypress
+
+```sh
+npm run cypress
 ```
